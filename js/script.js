@@ -45,42 +45,62 @@ const quotes = [
 function getRandomQuote() {
   // Selects a random number from 0 to last index of quotes array
   const randNumber = Math.floor(Math.random() * quotes.length);
+
   // Returns a random quote object
   return quotes[randNumber];
 }
 
-// function changeBackgroundColor() {
-//   // Color data
-//   const colorArr = ['orangered', 'lightskyblue'];
-//   // Selects a random number from 0 to last index of color array
-//   const randNumber = Math.floor(Math.random() * colorArr.length);
-//   // Uses random number to get color from array
-//   const color = colorArr[randNumber];
-//   // Changes background color on body element
-//   document.querySelector('body').style.backgroundColor = color;
-// }
+function changeBackgroundColor() {
+  // Color data
+  const colorClassArr = ['color-1', 'color-2', 'color-3', 'color-4', 'color-5'];
+
+  // Selects a random number from 0 to last index of color array
+  const randNumber = Math.floor(Math.random() * colorClassArr.length);
+
+  // Uses random number to get color from array
+  const color = colorClassArr[randNumber];
+
+  // Overwrites the body element's class attribute
+  // The new class name is used by the stylesheet to set the background color
+  document.querySelector('body').className = color;
+
+  // Overwrites the #loadQuote element's class attribute
+  // The new class name is used by the stylesheet to set the background color
+  document.querySelector('#loadQuote').className = color;
+
+  /**
+   * Note: Using ".style.backgroundColor" would result in inline styling,
+   * which would create a specificity issue with the hover effect
+   */
+}
 
 // Inserts new random quote into webpage
 function printQuote() {
   // Gets a random quote
   const randomQuote = getRandomQuote();
+
   // Creates a variable to store HTML
   let quoteHTML = '';
+
   // Adds the citation property only if it exists
   const citation = randomQuote.citation ? `<span class="citation">${randomQuote.citation}</span>` : '';
+
   // Adds the year property only if it exists
   const year = randomQuote.year ? `<span class="year">${randomQuote.year}</span>` : '';
+
   // Adds the tags property only if it exists
   const tags = randomQuote.tags ? `<span class="tags">${randomQuote.tags.reduce((accumulator, tag) => `${accumulator}  #${tag}`, '')}</span>` : '';
+
   // Creates the HTML string
   quoteHTML = `
     <p class="quote">${randomQuote.quote}</p>
     <p class="source">${randomQuote.source}${citation}${year}${tags}</p>
   `;
+
   // Updates the innerHTML of quote-box element
   document.getElementById('quote-box').innerHTML = quoteHTML;
 
- // changeBackgroundColor();
+  changeBackgroundColor();
 }
 
 // Sets a quote on page load

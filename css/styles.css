@@ -81,7 +81,7 @@ body {
   border-radius: 4px;
   border: 2px solid #fff;
   color: #fff;
-  background-color: #36b55c;
+  /* background-color: #36b55c; */
   padding: 15px 0;
   transition: .5s ;
 }
@@ -103,4 +103,22 @@ body {
   .source {
     font-size: 1.25rem;
   }
+}
+
+/* Background Colors ********/
+
+.color-1{
+  background-color: indianred;
+}
+.color-2{
+  background-color: cadetblue;
+}
+.color-3{
+  background-color: chocolate;
+}
+.color-4{
+  background-color: royalblue;
+}
+.color-5{
+  background-color: mediumseagreen;
 }
