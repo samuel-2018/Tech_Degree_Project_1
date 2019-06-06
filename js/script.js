@@ -3,9 +3,6 @@ Treehouse FSJS Techdegree:
 project 1 - A Random Quote Generator
 ***************************************** */
 
-// Study guide for this project - https://drive.google.com/file/d/1s5grutGuQFwJcQP8bFwEI69Q8FCkGdDk/view?usp=sharing
-
-
 // App data (array of quote objects)
 const quotes = [
   {
@@ -41,70 +38,100 @@ const quotes = [
   },
 ];
 
-// Gets a random quote from quotes array
+// Gets a random quote from quotes array.
 function getRandomQuote() {
-  // Selects a random number from 0 to last index of quotes array
+  // Selects a random number from 0 to last index of quotes array.
   const randNumber = Math.floor(Math.random() * quotes.length);
 
-  // Returns a random quote object
+  // Returns a random quote object.
   return quotes[randNumber];
 }
+
+// Intiualizes static variable
+//let prevBackgroundColor = 0;
+
 
 function changeBackgroundColor() {
   // Color data
   const colorClassArr = ['color-1', 'color-2', 'color-3', 'color-4', 'color-5'];
 
-  // Selects a random number from 0 to last index of color array
-  const randNumber = Math.floor(Math.random() * colorClassArr.length);
+  let randColorNumber;
 
-  // Uses random number to get color from array
-  const color = colorClassArr[randNumber];
+  // if (changeBackgroundColor.prevColor === 'undefined') {
+  //   // initialize static variable
+  //   changeBackgroundColor.prevColor = randColorNumber;
+  // }
 
-  // Overwrites the body element's class attribute
-  // The new class name is used by the stylesheet to set the background color
+  // Chooses a random number different from last choice
+  do {
+    // Selects a random number from 0 to last index of color array.
+    randColorNumber = Math.floor(Math.random() * colorClassArr.length);
+  } while (changeBackgroundColor.prevColor === randColorNumber);
+
+  // Utilizes static variable for tracking previous color
+  changeBackgroundColor.prevColor = randColorNumber;
+
+  // Uses random number to get color from array.
+  const color = colorClassArr[randColorNumber];
+
+  // Overwrites the body element's class attribute.
+  // The new class name is used by the stylesheet to set the background color.
   document.querySelector('body').className = color;
 
-  // Overwrites the #loadQuote element's class attribute
-  // The new class name is used by the stylesheet to set the background color
+  // Overwrites the #loadQuote element's class attribute.
+  // The new class name is used by the stylesheet to set the background color.
   document.querySelector('#loadQuote').className = color;
 
   /**
    * Note: Using ".style.backgroundColor" would result in inline styling,
-   * which would create a specificity issue with the hover effect
+   * which would create a specificity issue with the hover effect.
    */
 }
 
-// Inserts new random quote into webpage
-function printQuote() {
-  // Gets a random quote
+// Inserts new random quote into webpage.
+function printQuote(resetTimer = false) {
+  // Gets a random quote.
   const randomQuote = getRandomQuote();
 
-  // Creates a variable to store HTML
+  // Creates a variable to store HTML.
   let quoteHTML = '';
 
-  // Adds the citation property only if it exists
+  // Adds the citation property only if it exists.
   const citation = randomQuote.citation ? `<span class="citation">${randomQuote.citation}</span>` : '';
 
-  // Adds the year property only if it exists
+  // Adds the year property only if it exists.
   const year = randomQuote.year ? `<span class="year">${randomQuote.year}</span>` : '';
 
-  // Adds the tags property only if it exists
+  // Adds the tags property only if it exists.
   const tags = randomQuote.tags ? `<span class="tags">${randomQuote.tags.reduce((accumulator, tag) => `${accumulator}  #${tag}`, '')}</span>` : '';
 
-  // Creates the HTML string
+  // Creates the HTML string.
   quoteHTML = `
     <p class="quote">${randomQuote.quote}</p>
     <p class="source">${randomQuote.source}${citation}${year}${tags}</p>
   `;
 
-  // Updates the innerHTML of quote-box element
+  // Updates the innerHTML of quote-box element.
   document.getElementById('quote-box').innerHTML = quoteHTML;
 
   changeBackgroundColor();
+
+  if (resetTimer) {
+    // Clears previous instance of timer.
+    clearInterval(myTimer);
+
+    // Creates a new instance of timer.
+    // This results in the clock being reset after
+    // 'printQuote' was called via button click.
+    myTimer = setInterval(printQuote, 8000);
+  }
 }
 
 // Sets a quote on page load
 printQuote();
 
+// Creates first instance of the slide timer
+let myTimer = setInterval(printQuote, 8000);
+
 // Creates event listener for 'Show another quote' button
-document.getElementById('loadQuote').addEventListener('click', printQuote, false);
+document.getElementById('loadQuote').addEventListener('click', () => printQuote(true), false);
