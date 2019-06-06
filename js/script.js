@@ -40,27 +40,26 @@ const quotes = [
 
 // Gets a random quote from quotes array.
 function getRandomQuote() {
-  // Selects a random number from 0 to last index of quotes array.
-  const randNumber = Math.floor(Math.random() * quotes.length);
+  let randQuoteNumber;
+
+  // Chooses a random number different from last choice
+  do {
+    // Selects a random number from 0 to last index of quotes array.
+    randQuoteNumber = Math.floor(Math.random() * quotes.length);
+  } while (getRandomQuote.prevQuote === randQuoteNumber);
+
+  // Utilizes static variable for tracking previous quote
+  getRandomQuote.prevQuote = randQuoteNumber;
 
   // Returns a random quote object.
-  return quotes[randNumber];
+  return quotes[randQuoteNumber];
 }
-
-// Intiualizes static variable
-//let prevBackgroundColor = 0;
-
 
 function changeBackgroundColor() {
   // Color data
   const colorClassArr = ['color-1', 'color-2', 'color-3', 'color-4', 'color-5'];
 
   let randColorNumber;
-
-  // if (changeBackgroundColor.prevColor === 'undefined') {
-  //   // initialize static variable
-  //   changeBackgroundColor.prevColor = randColorNumber;
-  // }
 
   // Chooses a random number different from last choice
   do {
@@ -123,7 +122,7 @@ function printQuote(resetTimer = false) {
     // Creates a new instance of timer.
     // This results in the clock being reset after
     // 'printQuote' was called via button click.
-    myTimer = setInterval(printQuote, 8000);
+    myTimer = setInterval(printQuote, 20000);
   }
 }
 
@@ -131,7 +130,10 @@ function printQuote(resetTimer = false) {
 printQuote();
 
 // Creates first instance of the slide timer
-let myTimer = setInterval(printQuote, 8000);
+let myTimer = setInterval(printQuote, 20000);
+
+// 'true' is passed to 'printQuote' to reset the timer
+const resetTimer = true;
 
 // Creates event listener for 'Show another quote' button
-document.getElementById('loadQuote').addEventListener('click', () => printQuote(true), false);
+document.getElementById('loadQuote').addEventListener('click', () => printQuote(resetTimer), false);
